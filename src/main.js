@@ -27,11 +27,14 @@
  * 创建textNode可以使用createTextNode方法
  * 
  * 
- * 第四阶段：虽然已经实现了动态创建VDom，但是目前的结构比较单一，不具备动态生成dom的需求，递归思想动态渲染
+ * 第四阶段：  虽然已经实现了动态创建VDom，但是目前的结构比较单一，不具备动态生成dom的需求，递归思想动态渲染
  * 抽象动作：
  *    1. 创建节点
  *    2. set 属性props
  *    3. 追加到父节点 append
+ * 
+ * 
+ * 
  */
 
 /**###################################### 第一阶段 ################################### */
@@ -165,13 +168,19 @@ const createElement = (type, props, ...children) => {
     type: type,
     props: {
       ...props,
-      children
+      children: children.map((child) => {
+        return typeof child === "string" ? createTextNodeElement(child) : child
+      })
     }
   }
 }
 
+
+/**持续优化，如果 textNodeElement 本身是一个string该怎么办?????????????????????????????????????????? */
+
 const textNodeElement = createTextNodeElement("app");
-const App = createElement("div", { id: "app" }, textNodeElement);
+// const App = createElement("div", { id: "app" }, textNodeElement);
+const App = createElement("div", { id: "app" },  "create app", " by holin");
 
 function render(el, container) {
   const dom = el.type === "TEXT_ELEMENT" ? document.createTextNode("") : document.createElement(el.type);
