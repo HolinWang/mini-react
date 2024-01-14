@@ -27,14 +27,14 @@
  * 创建textNode可以使用createTextNode方法
  * 
  * 
- * 第四阶段：  虽然已经实现了动态创建VDom，但是目前的结构比较单一，不具备动态生成dom的需求，递归思想动态渲染
+ * 第四阶段： 虽然已经实现了动态创建VDom，但是目前的结构比较单一，不具备动态生成dom的需求，递归思想动态渲染
  * 抽象动作：
  *    1. 创建节点
  *    2. set 属性props
  *    3. 追加到父节点 append
  * 
- * 
- * 
+ * 第五阶段： 最终的目标是要跟react一致
+ * ReactDOM.createRoot(document.querySelector("#root")).render(App);
  */
 
 /**###################################### 第一阶段 ################################### */
@@ -153,7 +153,7 @@ console.log(document.querySelector("#root")) */
  * 
  */
 
-const createTextNodeElement = (text) => {
+/* const createTextNodeElement = (text) => {
   return {
     type: "TEXT_ELEMENT",
     props: {
@@ -173,13 +173,12 @@ const createElement = (type, props, ...children) => {
       })
     }
   }
-}
+} */
 
 
 /**持续优化，如果 textNodeElement 本身是一个string该怎么办?????????????????????????????????????????? */
 
-const textNodeElement = createTextNodeElement("app");
-// const App = createElement("div", { id: "app" }, textNodeElement);
+/* const textNodeElement = createTextNodeElement("app");
 const App = createElement("div", { id: "app" },  "create app", " by holin");
 
 function render(el, container) {
@@ -196,5 +195,31 @@ function render(el, container) {
   })
   container.append(dom);
   console.log(el,container)
-}
-render(App,document.querySelector("#root"));
+} */
+// render(App,document.querySelector("#root"));
+
+
+/**###################################### 第五阶段 ################################### */
+// ReactDOM.createRoot(document.querySelector("#root")).render(App);
+
+// const ReactDOM = {
+//   /**
+//    * @param {*} container  根容器
+//    * @returns 
+//    */
+//   createRoot(container){
+//     return{
+//       render(App){
+//         render(App,container)
+//       }
+//     }
+//   }
+// }
+
+// import React from "./core/React.js";
+import ReactDOM from "./core/ReactDom";
+import App from "./App.js";
+
+// const App = React.createElement("div", { id: "app" },  "create app", " by holin");
+
+ReactDOM.createRoot(document.querySelector("#root")).render(App)
