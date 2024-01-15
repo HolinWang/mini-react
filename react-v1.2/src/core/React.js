@@ -21,8 +21,8 @@ const createElement = (type, props, ...children) => {
 }
 
 function render(el, container) {
-  currentWorkOfUnit = {
-    dom:container,
+  nextWorkOfUnit = {
+    dom: container,
     props:{
       children:[el]
     }
@@ -42,10 +42,6 @@ function render(el, container) {
   // console.log(el,container)
 }
 
-const React = {
-  render,
-  createElement
-}
 
 /**
  * requestIdleCallback方法
@@ -57,12 +53,11 @@ const React = {
  * 2. dom分配到不同的Task之后该如何渲染
  * @param {*} deadLine 
  */
-let currentWorkOfUnit = null;
+let nextWorkOfUnit = null;
 function workLoop(deadLine){
   let shouldYield = false;
-  while(!shouldYield && currentWorkOfUnit){
-    let nextWorkOfUnit = performWorkOfUnit(currentWorkOfUnit);
-    currentWorkOfUnit = nextWorkOfUnit;
+  while(!shouldYield && nextWorkOfUnit){
+    nextWorkOfUnit = performWorkOfUnit(nextWorkOfUnit);
     // run task  每个任务执行的次数和时间不一样
     shouldYield = deadLine.timeRemaining() < 1;
   }
@@ -81,9 +76,9 @@ function performWorkOfUnit(work){
     const dom = (work.dom = work.type === "TEXT_ELEMENT" ? document.createTextNode("") : document.createElement(work.type));
     work.parent.dom.append(dom);   //需要将当前的dom添加到父级容器中
     // 2
-    Object.keys(el.props).forEach((key) => {
+    Object.keys(work.props).forEach((key) => {
       if(key !== "children"){
-        dom[key] = el.props[key];
+        dom[key] = work.props[key];
       }
     })
   }
@@ -131,6 +126,7 @@ function performWorkOfUnit(work){
   let prevChild = null;
   children.forEach((child,index) => {
     const newWork = {
+      ...child,
       type:child.type,
       props:child.props,
       child:null,
@@ -156,5 +152,11 @@ function performWorkOfUnit(work){
   return work.parent?.sibling
 }
 
+
 requestIdleCallback(workLoop);
+
+const React = {
+  render,
+  createElement
+}
 export default React;
