@@ -126,7 +126,6 @@ function performWorkOfUnit(work){
   let prevChild = null;
   children.forEach((child,index) => {
     const newWork = {
-      ...child,
       type:child.type,
       props:child.props,
       child:null,
@@ -144,15 +143,13 @@ function performWorkOfUnit(work){
 
   // 4
   if(work.child){
-    return work.sibling;
+    return work.child;
   }
   if(work.sibling){
     return work.sibling;
   }
   return work.parent?.sibling
 }
-
-
 requestIdleCallback(workLoop);
 
 const React = {

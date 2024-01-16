@@ -1,4 +1,4 @@
-import React from "./core/React-new.js";
+import React from "./core/React.js";
 
 const App = <div id="holin-mini-react">
   <div>Hi Mini-React App1</div>

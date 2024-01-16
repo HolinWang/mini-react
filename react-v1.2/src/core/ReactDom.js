@@ -1,4 +1,4 @@
-import React from "./React-new.js";
+import React from "./React.js";
 
 const {render} = React;
 const ReactDOM = {
